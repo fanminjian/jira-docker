@@ -15,9 +15,7 @@ Setup a postgresql database on your server with dokku:
 $ dokku postgresql:create jira
 ```
 
-The DB credentials should be available in the ENV variable $DATABASE_URL on build time. You can get them after the app is deployed via ```dokku config appname```.
-
-Clone this repo and add your server's dokku url to your repositories' remotes:
+Clone this repo and add your server's dokku url to your repositories' remotes (let's call our app ```jira``` as well):
 
 ```
 $ git clone https://github.com/chmanie/jira-docker
@@ -36,6 +34,14 @@ Grab a hot beverage. This may take some time. The docker container is built from
 **Your app is not ready for production yet!**
 
 ###Persistence
+
+To link the database to our app we need to:
+
+```
+$ dokku postgresql:link jira jira
+```
+
+The DB credentials should be spit out right now and are available in the ENV variable $DATABASE_URL on build time. You can get them after the app is deployed via ```dokku config jira```.
 
 We need to create a mounted volume to persist the jira config files, attachments and whatnot. To do this create a folder on your server, which is going to contain the persistant data files.
 
@@ -58,7 +64,7 @@ Redeploy the app or ```dokku rebuild jira```
 Go to [http://jira.your-server.com](http://jira.your-server.com) (or whatever app name you chose).
 
 Maybe jira could obtain your database credentials automatically. On setup choose 'external database'.
-If asked for credentials put in the credentials you obtained via ```dokku config appname```.
+If asked for credentials put in the credentials you obtained earlier.
 
 **You're done!**
 
