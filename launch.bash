@@ -29,6 +29,11 @@ if [ -n "$CONNECTOR_SECURE" ]; then
 	xmlstarlet ed --inplace --insert "/Server/Service/Connector" --type attr -n secure -v $CONNECTOR_SECURE conf/server.xml
 fi
 
+if [ -n "$CONNECTOR_SCHEME" ]; then
+	xmlstarlet ed --inplace --delete "/Server/Service/Connector/@scheme" conf/server.xml
+	xmlstarlet ed --inplace --insert "/Server/Service/Connector" --type attr -n scheme -v $CONNECTOR_SCHEME conf/server.xml
+fi
+
 if [ -n "$DATABASE_URL" ]; then
   extract_database_url "$DATABASE_URL" DB /opt/jira/lib
   DB_JDBC_URL="$(xmlstarlet esc "$DB_JDBC_URL")"
